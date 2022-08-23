@@ -57,39 +57,97 @@
 
 }
 
-.label_container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
-    background-color: hsla(0, 2%, 77%, 0.33);
-    margin-bottom: 5px;
-    margin-top: 10px;
+.ulForm {
+    position: absolute;
+    width: inherit;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+    grid-template-rows: repeat(7, minmax(0, 1fr));
+    row-gap: 10px;
+    grid-template-areas:
+        "name name name name name name name . surname surname surname surname surname surname surname"
+        "email email email email email email email email email email email email email email email"
+        "senha senha senha senha senha senha senha . csenha csenha csenha csenha csenha csenha csenha"
+    ;
+}
+
+.liItens {
+
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
+    justify-content: flex-start;
 }
 
-.input_avatar {
-    display: none;
+.liNameItem {
+    width: 250px;
+    grid-area: name;
 }
 
-/* .img_icon{
+.liSurnameItem {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    grid-area: surname;
+}
 
-} */
-.input_text {
-    position: absolute;
-    bottom: 30px;
+.liEmailItem {
+    grid-area: email;
+}
+
+.liSenhaItem {
+    grid-area: senha;
+}
+
+.liConfirmaSenhaItem {
+    grid-area: csenha;
+}
+
+.allLabels {
+    margin-bottom: 5px;
     font-family: 'Open Sans';
     font-style: italic;
     font-weight: 500;
     font-size: 10px;
-    line-height: 14px;
-    text-align: center;
-    letter-spacing: 0.1em;
+    line-height: 15px;
+    letter-spacing: 0.1rem;
     text-transform: uppercase;
-
     color: #970480;
+}
+
+.inputAll {
+    padding: 5px 5px 5px 20px;
+    height: 40px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    border: 1px solid hsla(310, 95%, 30%, 1);
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #5E5E5E;
+
+}
+
+.inputAll::placeholder {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 25px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    text-align: left;
+    margin-left: 10px;
+    color: #5E5E5E;
+}
+
+.inputAll:focus {
+    outline: 3px solid rgb(120, 4, 101);
+    outline-style: dotted;
+    padding-left: 20px;
 }
