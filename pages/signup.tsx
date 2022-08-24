@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../public/images/betalogo.svg';
 import { useState } from 'react';
+import { Schaduale } from '../components/Schaduale/Schaduale';
 
 
 type PropsName = {
@@ -97,6 +98,8 @@ const SignUp = ({ list }: PropsName) => {
                     <h1 className={styles.agenda_tittle}>Dias da semana e horários disponíveis para execução dos desafios</h1>
                     <p className={styles.agenda_sub}>*</p>
                 </div>
+                <Schaduale />
+
                 <button className={styles.btn_signUp}>Continuar</button>
             </main>
 
