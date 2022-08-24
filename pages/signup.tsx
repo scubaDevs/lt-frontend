@@ -1,5 +1,7 @@
 import styles from '../styles/Signup.module.css';
 import { Footer } from '../components/Footer';
+import { Country_Phone } from '../components/Country_Phone';
+import { LiInputRadio } from '../components/LiInputRadio/LiInputRadio';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,13 +9,22 @@ import logo from '../public/images/betalogo.svg';
 import { useState } from 'react';
 
 
-const SignUp = () => {
+type PropsName = {
+    list: any[]
+}
+
+
+const SignUp = ({ list }: PropsName) => {
+
+
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_Password, setConfirm_Password] = useState('');
+    const [fakeName, setFakeName] = useState('');
+
 
     return (
         <>
@@ -62,22 +73,31 @@ const SignUp = () => {
                                 <label htmlFor="confirmasenha" className={`${styles.allLabels} ${styles.confirmaSenhaLabel} ${styles.inputConfirmaSenha}`}>Confirmar Senha</label>
                                 <input className={`${styles.inputConfirmaSenha} ${styles.inputAll}`} id="confirmasenha" type="password" value={confirm_Password} name='confirmasenha' onChange={e => { setConfirm_Password(e.target.value) }} placeholder="confirme a senha" />
                             </li>
+                            <Country_Phone
+                                countryList={list}
+                            />
+                            <LiInputRadio
 
-                            {/*           <li class="twoColumnPart">
-                                <label for="email">Email</label>
-                                <input id="email" type="text" value="" name="email">
-                            </li>
-                            <li>
-                                <label for="subject">Subject</label>
-                                <input id="subject" type="text" value="" name="subject">
-                            </li>
-                            <li>
-                                <label for="message">Message</label>
-                                <textarea id="message" type="text" name="message"></textarea>
-                            </li> */}
+                            />
+
+
                         </ul>
                     </form>
+
+                    <div className={styles.fake_container}>
+                        <h1 className={styles.tittleFake}>Perfil Fictício</h1>
+                        <p className={styles.subFake}>*As informações fictícias serão públicas dentro da plataforma e deverão ser utilizadas durante as atividades como medida de segurança.<br />Não forneça suas informações pessoais.<br />(Ex: nome, nomes de amigos ou parentes, endereço residencial e redes socias.)</p>
+                        <li className={`${styles.liItens} ${styles.liFakeNameItem}`}>
+                            <label htmlFor="fakename" className={`${styles.allLabels} ${styles.NameLabel}`}>Nome Fictício</label>
+                            <input className={`${styles.inputName} ${styles.inputAll}`} id="fakename" type="text" value={fakeName} name='fakename' onChange={e => { setFakeName(e.target.value) }} placeholder="Digite o seu pseudônimo" />
+                        </li>
+                    </div>
                 </div>
+                <div className={styles.agenda_container}>
+                    <h1 className={styles.agenda_tittle}>Dias da semana e horários disponíveis para execução dos desafios</h1>
+                    <p className={styles.agenda_sub}>*</p>
+                </div>
+                <button className={styles.btn_signUp}>Continuar</button>
             </main>
 
             <Footer />
@@ -88,3 +108,15 @@ const SignUp = () => {
 }
 
 export default SignUp;
+
+export async function getStaticProps() {
+
+    const res = await fetch('https://restcountries.com/v3.1/all')
+    const list = await res.json()
+
+    return {
+        props: {
+            list
+        },
+    }
+}

@@ -20,7 +20,7 @@
 
 .main_container {
     width: 100%;
-    height: 100vh;
+    height: 1500px;
     position: relative;
 
 }
@@ -62,13 +62,16 @@
     width: inherit;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(15, minmax(0, 1fr));
-    grid-template-rows: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+    grid-template-rows: repeat(5, minmax(0, 1fr));
     row-gap: 10px;
     grid-template-areas:
-        "name name name name name name name . surname surname surname surname surname surname surname"
-        "email email email email email email email email email email email email email email email"
-        "senha senha senha senha senha senha senha . csenha csenha csenha csenha csenha csenha csenha"
+        "name name name name name name name name . surname surname surname surname surname surname surname surname"
+        "email email email email email email email email email email email email email email email email email"
+        "senha senha senha senha senha senha senha senha . csenha csenha csenha csenha csenha csenha csenha csenha"
+        "country country country country country country . image image image phone phone phone phone phone phone phone"
+        "radio radio radio radio  radio radio radio radio  radio radio radio radio radio radio radio radio radio "
+
     ;
 }
 
@@ -80,17 +83,19 @@
 }
 
 .liNameItem {
-    width: 250px;
+
     grid-area: name;
 }
 
 .liSurnameItem {
-    width: 250px;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     grid-area: surname;
 }
+
+
 
 .liEmailItem {
     grid-area: email;
@@ -103,6 +108,8 @@
 .liConfirmaSenhaItem {
     grid-area: csenha;
 }
+
+
 
 .allLabels {
     margin-bottom: 5px;
@@ -150,4 +157,109 @@
     outline: 3px solid rgb(120, 4, 101);
     outline-style: dotted;
     padding-left: 20px;
+}
+
+.fake_container {
+    position: absolute;
+    top: 450px;
+}
+
+.tittleFake {
+
+    bottom: 0px;
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #970480;
+    margin-bottom: 5px;
+}
+
+.subFake {
+
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #5E5E5E;
+    margin-bottom: 0px;
+}
+
+.liFakeNameItem {
+    margin-top: 20px;
+}
+
+.btn_signUp {
+    position: absolute;
+    top: 1400px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    width: 539px;
+    height: 40px;
+    border: 2px solid hsla(310, 95%, 30%, 1);
+    background-color: white;
+    border-radius: 15px;
+    color: hsla(0, 0%, 18%, 1);
+    font-family: 'Open Sans', 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.05rem;
+    transition-property: width, height, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+
+}
+
+.btn_signUp:hover {
+
+
+    color: white;
+    box-shadow: 2px 5px 5px hsla(0, 0%, 37%, 1);
+
+    background-color: hsla(310, 95%, 30%, 1);
+    cursor: pointer;
+}
+
+.agenda_container {
+    position: absolute;
+    top: 770px;
+}
+
+.agenda_tittle {
+
+    width: 539px;
+    position: absolute;
+    left: 135px;
+    bottom: 0px;
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #970480;
+    margin-bottom: 5px;
+}
+
+.agenda_sub {
+
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #5E5E5E;
+    margin-bottom: 0px;
 }
