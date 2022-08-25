@@ -6,6 +6,7 @@ const Schaduale = () => {
 
 
     const [clickedButton, setClickedButton] = useState('')
+    const [selection, setSelection] = useState({})
 
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -14,7 +15,9 @@ const Schaduale = () => {
         const button: HTMLButtonElement = e.currentTarget;
         setClickedButton(button.value)
     }
+    /* const handleSelection = (props){
 
+    } */
     return (
         <div className={styles.container}>
             <div>

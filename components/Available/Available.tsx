@@ -1,15 +1,60 @@
 import styles from "../Available/Available.module.css";
+import { useState } from "react";
+
 
 const Available = () => {
+
+    type IdValueType = {
+        id: number,
+        value: string
+
+    }
+    const [checkedItem, setCheckedItem] = useState<Array<IdValueType>>([])
+
+    const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const id = parseInt(e.target.id);
+        const value = e.target.value;
+        const obj = { id: id, value: value }
+        const checked = e.target.checked
+
+        if (checked == false && checkedItem.includes(obj)) {
+            const newObj = checkedItem.filter((item) => { item != obj });
+            setCheckedItem(newObj);
+
+        } else {
+            const newObj = [...checkedItem];
+            newObj.push(obj);
+            setCheckedItem(newObj);
+        }
+
+        console.log(checkedItem)
+    }
+
+
     return (
         <>
             <div className={styles.ampm}>
                 <label htmlFor='1'>6:00 - 7:00</label>
-                <input type='checkbox' id='1' name='1' />
+                <input
+                    type='checkbox'
+                    id='1'
+                    name='1'
+                    value='6:00 - 7:00'
+                    onChange={handleCheckBoxChange}
+
+                />
             </div>
             <div className={styles.ampm}>
                 <label htmlFor='2'>10:00 - 11:00</label>
-                <input type='checkbox' id='2' name='2' />
+                <input
+                    type='checkbox'
+                    id='2'
+                    name='2'
+                    value='10:00 - 11:00'
+                    onChange={handleCheckBoxChange}
+                    checked={checkedItem.includes({ id: 1, value: '10:00 - 11:00' }) ? true : false}
+
+                />
             </div>
             <div className={styles.ampm}>
                 <label htmlFor='3'>14:00 - 15:00</label>
