@@ -1,0 +1,8 @@
+.ampm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid hsla(310, 95%, 30%, 1);
+
+}

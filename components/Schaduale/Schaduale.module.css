@@ -4,16 +4,12 @@
     position: absolute;
     top: 800px;
     left: 135px;
-    border: 1px solid aqua;
+
     display: grid;
     grid-template-columns: repeat(6, 150px);
     grid-template-rows: repeat(5, 50px);
     grid-gap: 10px;
 }
-
-
-
-
 
 .allDays {
     width: 150px;
@@ -40,49 +36,4 @@
 
     background-color: hsla(310, 95%, 30%, 1);
     cursor: pointer;
-}
-
-.segunda {
-    grid-area: segunda;
-
-
-}
-
-.terca {
-    grid-area: terca;
-}
-
-.quarta {
-    grid-area: quarta;
-}
-
-.quinta {
-    grid-area: quinta;
-}
-
-.sexta {
-    grid-area: sexta;
-}
-
-.sabado {
-    grid-area: sabado;
-}
-
-
-
-.ampm {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border: 2px solid black;
-
-}
-
-.am {
-    grid-area: am;
-}
-
-.pm {
-    grid-area: pm;
 }
