@@ -52,7 +52,7 @@ const SignUp = ({ list }: PropsName) => {
                 <div className={styles.initial_container}>
                     <h1 className={styles.tittle}>Perfil Verdadeiro</h1>
                     <p className={styles.sub}>*Informações pessoais sensíveis não serão públicas dentro da plataforma.</p>
-                    <form>
+                    <form className={styles.form_container}>
                         <ul className={styles.ulForm}>
                             <li className={`${styles.liItens} ${styles.liNameItem}`}>
                                 <label htmlFor="name" className={`${styles.allLabels} ${styles.NameLabel}`}>Nome</label>
@@ -85,7 +85,7 @@ const SignUp = ({ list }: PropsName) => {
                         </ul>
                     </form>
 
-                    <div className={styles.fake_container}>
+                    <div>
                         <h1 className={styles.tittleFake}>Perfil Fictício</h1>
                         <p className={styles.subFake}>*As informações fictícias serão públicas dentro da plataforma e deverão ser utilizadas durante as atividades como medida de segurança.<br />Não forneça suas informações pessoais.<br />(Ex: nome, nomes de amigos ou parentes, endereço residencial e redes socias.)</p>
                         <li className={`${styles.liItens} ${styles.liFakeNameItem}`}>
@@ -94,13 +94,10 @@ const SignUp = ({ list }: PropsName) => {
                         </li>
                     </div>
                 </div>
-                <div className={styles.agenda_container}>
-                    <h1 className={styles.agenda_tittle}>Dias da semana e horários disponíveis para execução dos desafios</h1>
-                    <p className={styles.agenda_sub}>*</p>
-                </div>
+
                 <Schaduale />
 
-                <button className={styles.btn_signUp}>Continuar</button>
+
             </main>
 
             <Footer />
