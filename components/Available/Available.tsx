@@ -11,24 +11,37 @@ const Available = () => {
     }
     const [checkedItem, setCheckedItem] = useState<Array<IdValueType>>([])
 
-    const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckBoxChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const id = parseInt(e.target.id);
         const value = e.target.value;
         const obj = { id: id, value: value }
-        const checked = e.target.checked
 
-        if (checked == false && checkedItem.includes(obj)) {
-            const newObj = checkedItem.filter((item) => { item != obj });
-            setCheckedItem(newObj);
+        if (e.target.checked == true) {
+            if (checkedItem.find(i => i.value === value)) {
+                return
+            } else {
+                const newList = [...checkedItem];
+                newList.push(obj);
+                setCheckedItem(newList);
+                return
+            }
+        }
+        if (e.target.checked == false) {
 
-        } else {
-            const newObj = [...checkedItem];
-            newObj.push(obj);
-            setCheckedItem(newObj);
+            if (checkedItem.find(i => i.value === value)) {
+                const newList = [...checkedItem]
+                newList.splice(newList.findIndex(i => i.id === id), 1)
+                setCheckedItem(newList)
+                return
+            }
         }
 
-        console.log(checkedItem)
+
+        return
     }
+
+
+    console.log("Testando o resultado em tadas as casas: ", checkedItem)
 
 
     return (
@@ -52,13 +65,19 @@ const Available = () => {
                     name='2'
                     value='10:00 - 11:00'
                     onChange={handleCheckBoxChange}
-                    checked={checkedItem.includes({ id: 1, value: '10:00 - 11:00' }) ? true : false}
+
 
                 />
             </div>
             <div className={styles.ampm}>
                 <label htmlFor='3'>14:00 - 15:00</label>
-                <input type='checkbox' id='3' name='3' />
+                <input
+                    type='checkbox'
+                    id='3'
+                    name='3'
+                    value='14:00 - 15:00'
+                    onChange={handleCheckBoxChange}
+                />
             </div>
             <div className={styles.ampm}>
                 <label htmlFor='4'>18:00 - 19:00</label>
