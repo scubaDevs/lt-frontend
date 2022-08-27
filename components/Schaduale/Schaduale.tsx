@@ -6,28 +6,35 @@ import { IdValueType } from '../../types/types';
 
 
 
+//Início do Componente
 
 const Schaduale = () => {
 
 
+    //Constantes que guardam states
+
     const [clickedButton, setClickedButton] = useState('')
     const [checkedItem, setCheckedItem] = useState<Array<IdValueType>>([])
 
-    //Dias da semana selecionados
+
+
+    //Dias da semana selecionado
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const button: HTMLButtonElement = e.currentTarget;
-        setClickedButton(button.value)
+        return setClickedButton(button.value)
     }
 
 
 
     //Horário disponíveis selecionados
+
     const handleCheckBoxChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const id = parseInt(e.target.id);
         const value = e.target.value;
-        const name = parseInt(e.target.name);
+        const name = e.target.name;
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
@@ -36,7 +43,8 @@ const Schaduale = () => {
             } else {
                 let newList = [...checkedItem];
                 newList.push(obj);
-                newList.sort((a, b) => (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0)
+                //colocando em ordem crescente com base no valor do id
+                newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
                 console.log(newList)
                 setCheckedItem(newList);
                 return
@@ -52,18 +60,16 @@ const Schaduale = () => {
             }
         }
 
-
-
         return
     }
 
 
-
+    // ***Início do Retorno do Componente***
 
     return (
         <div className={styles.schaduale_container}>
             <div className={styles.agenda_container}>
-                <h1 className={styles.agenda_tittle}>Dias da semana e horários disponíveis para execução dos desafios</h1>
+                <h1 className={styles.agenda_tittle}>Selecione os dias da semana e horários disponíveis para execução dos desafios</h1>
                 <div className={styles.available_container}>
                     <ul>
                         {
@@ -80,226 +86,267 @@ const Schaduale = () => {
 
             <div className={styles.container}>
                 <div>
-                    <button value='segunda' onClick={handleClick} className={clickedButton == 'segunda' ? `${styles.day}` : `${styles.allDays}`}>Segunda</button>
+                    <button
+                        value='segunda'
+                        onClick={handleClick}
+                        className={clickedButton == 'segunda' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Segunda
+                    </button>
                 </div>
                 <div>
-                    <button value='terça' onClick={handleClick} className={clickedButton == 'terça' ? `${styles.day}` : `${styles.allDays}`}>Terça</button>
+                    <button
+                        value='terca'
+                        onClick={handleClick}
+                        className={clickedButton == 'terca' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Terça
+                    </button>
                 </div>
                 <div>
-                    <button value='wednesday' onClick={handleClick} className={`${styles.allDays} ${styles.quarta}`}>Quarta</button>
+                    <button
+                        value='quarta'
+                        onClick={handleClick}
+                        className={clickedButton == 'quarta' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Quarta
+                    </button>
                 </div >
                 <div>
-                    <button value='thursday' onClick={handleClick} className={`${styles.allDays} ${styles.quinta}`}>Quinta</button>
+                    <button
+                        value='quinta'
+                        onClick={handleClick}
+                        className={clickedButton == 'quinta' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Quinta
+                    </button>
                 </div>
                 <div>
-                    <button value='friday' onClick={handleClick} className={`${styles.allDays} ${styles.sexta}`}>Sexta</button>
+                    <button
+                        value='sexta'
+                        onClick={handleClick}
+                        className={clickedButton == 'sexta' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Sexta
+                    </button>
                 </div>
                 <div>
-                    <button value='saturday' onClick={handleClick} className={`${styles.allDays} ${styles.sabado}`}>Sábado</button>
+                    <button
+                        value='sabado'
+                        onClick={handleClick}
+                        className={clickedButton == 'sabado' ? `${styles.day}` : `${styles.allDays}`}
+                    >
+                        Sábado
+                    </button>
                 </div>
 
-                <div className={styles.ampm}>
-                    <label htmlFor='1'>6:00 - 7:00</label>
-                    <input
-                        type='checkbox'
-                        id='1'
-                        name='1'
-                        value='6:00 - 7:00'
-                        onChange={handleCheckBoxChange}
+                {/* ***Começando os checkbox de Segunda*** */}
+                {clickedButton == 'segunda' &&
+                    <>
+                        <div className={styles.ampm}>
+                            <label htmlFor='1'>6:00 - 7:00</label>
+                            <input
+                                type='checkbox'
+                                id='1'
+                                name='segunda'
+                                value='6:00 - 7:00'
+                                onChange={handleCheckBoxChange}
+                            /*  checked={handlechacked} */
 
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='2'>10:00 - 11:00</label>
-                    <input
-                        type='checkbox'
-                        id='2'
-                        name='5'
-                        value='10:00 - 11:00'
-                        onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='5'>10:00 - 11:00</label>
+                            <input
+                                type='checkbox'
+                                id='5'
+                                name='segunda'
+                                value='10:00 - 11:00'
+                                onChange={handleCheckBoxChange}
 
 
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='3'>14:00 - 15:00</label>
-                    <input
-                        type='checkbox'
-                        id='3'
-                        name='9'
-                        value='14:00 - 15:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='4'>18:00 - 19:00</label>
-                    <input
-                        type='checkbox'
-                        id='4'
-                        name='4'
-                        value='18:00 - 19:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='5'>22:00 - 23:00</label>
-                    <input
-                        type='checkbox'
-                        id='5'
-                        name='5'
-                        value='22:00 - 23:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div>
-                    <span></span>
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='6'>7:00 - 8:00</label>
-                    <input
-                        type='checkbox'
-                        id='6'
-                        name='6'
-                        value='7:00 - 8:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='7'>11:00 - 12:00</label>
-                    <input
-                        type='checkbox'
-                        id='7'
-                        name='7'
-                        value='11:00 - 12:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='9'>14:00 - 15:00</label>
+                            <input
+                                type='checkbox'
+                                id='9'
+                                name='segunda'
+                                value='14:00 - 15:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='13'>18:00 - 19:00</label>
+                            <input
+                                type='checkbox'
+                                id='13'
+                                name='segunda'
+                                value='18:00 - 19:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='17'>22:00 - 23:00</label>
+                            <input
+                                type='checkbox'
+                                id='17'
+                                name='segunda'
+                                value='22:00 - 23:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='2'>7:00 - 8:00</label>
+                            <input
+                                type='checkbox'
+                                id='2'
+                                name='segunda'
+                                value='7:00 - 8:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='6'>11:00 - 12:00</label>
+                            <input
+                                type='checkbox'
+                                id='6'
+                                name='segunda'
+                                value='11:00 - 12:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
 
-                <div className={styles.ampm}>
-                    <label htmlFor='8'>15:00 - 16:00</label>
-                    <input
-                        type='checkbox'
-                        id='8'
-                        name='8'
-                        value='15:00 - 16:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='9'>19:00 - 20:00</label>
-                    <input
-                        type='checkbox'
-                        id='9'
-                        name='9'
-                        value='19:00 - 20:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='10'>23:00 - 00:00</label>
-                    <input
-                        type='checkbox'
-                        id='10'
-                        name='10'
-                        value='23:00 - 00:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div>
-                    <span></span>
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='11'>8:00 - 9:00</label>
-                    <input
-                        type='checkbox'
-                        id='11'
-                        name='11'
-                        value='8:00 - 9:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='12'>12:00 - 13:00</label>
-                    <input
-                        type='checkbox'
-                        id='12'
-                        name='12'
-                        value='12:00 - 13:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='13'>16:00 - 17:00</label>
-                    <input
-                        type='checkbox'
-                        id='13'
-                        name='13'
-                        value='16:00 - 17:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='14'>20:00 - 21:00</label>
-                    <input
-                        type='checkbox'
-                        id='14'
-                        name='14'
-                        value='20:00 - 21:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div>
-                    <span></span>
-                </div>
-                <div>
-                    <span></span>
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='15'>9:00 - 10:00</label>
-                    <input
-                        type='checkbox'
-                        id='15'
-                        name='15'
-                        value='9:00 - 10:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='16'>13:00 - 14:00</label>
-                    <input
-                        type='checkbox'
-                        id='16'
-                        name='16'
-                        value='13:00 - 14:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='17'>17:00 - 18:00</label>
-                    <input
-                        type='checkbox'
-                        id='17'
-                        name='17'
-                        value='17:00 - 18:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div className={styles.ampm}>
-                    <label htmlFor='18'>21:00 - 22:00</label>
-                    <input
-                        type='checkbox'
-                        id='18'
-                        name='18'
-                        value='21:00 - 22:00'
-                        onChange={handleCheckBoxChange}
-                    />
-                </div>
-                <div>
-                    <span></span>
-                </div>
-                <div>
-                    <span></span>
-                </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='10'>15:00 - 16:00</label>
+                            <input
+                                type='checkbox'
+                                id='10'
+                                name='segunda'
+                                value='15:00 - 16:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='14'>19:00 - 20:00</label>
+                            <input
+                                type='checkbox'
+                                id='14'
+                                name='segunda'
+                                value='19:00 - 20:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='18'>23:00 - 00:00</label>
+                            <input
+                                type='checkbox'
+                                id='18'
+                                name='segunda'
+                                value='23:00 - 00:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='3'>8:00 - 9:00</label>
+                            <input
+                                type='checkbox'
+                                id='3'
+                                name='segunda'
+                                value='8:00 - 9:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='7'>12:00 - 13:00</label>
+                            <input
+                                type='checkbox'
+                                id='7'
+                                name='segunda'
+                                value='12:00 - 13:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='11'>16:00 - 17:00</label>
+                            <input
+                                type='checkbox'
+                                id='11'
+                                name='segunda'
+                                value='16:00 - 17:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='15'>20:00 - 21:00</label>
+                            <input
+                                type='checkbox'
+                                id='15'
+                                name='segunda'
+                                value='20:00 - 21:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='4'>9:00 - 10:00</label>
+                            <input
+                                type='checkbox'
+                                id='4'
+                                name='segunda'
+                                value='9:00 - 10:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='8'>13:00 - 14:00</label>
+                            <input
+                                type='checkbox'
+                                id='8'
+                                name='segunda'
+                                value='13:00 - 14:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='12'>17:00 - 18:00</label>
+                            <input
+                                type='checkbox'
+                                id='12'
+                                name='segunda'
+                                value='17:00 - 18:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div className={styles.ampm}>
+                            <label htmlFor='16'>21:00 - 22:00</label>
+                            <input
+                                type='checkbox'
+                                id='16'
+                                name='segunda'
+                                value='21:00 - 22:00'
+                                onChange={handleCheckBoxChange}
+                            />
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                        <div>
+                            <span></span>
+                        </div>
+                    </>}
                 <button className={styles.btn_signUp}>Continuar</button>
             </div>
 
