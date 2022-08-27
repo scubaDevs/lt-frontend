@@ -3,7 +3,7 @@
 export type IdValueType = {
     id: number,
     value: string,
-    name: string
+    name: number
 
 }
 

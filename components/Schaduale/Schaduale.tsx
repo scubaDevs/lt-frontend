@@ -27,16 +27,17 @@ const Schaduale = () => {
     const handleCheckBoxChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const id = parseInt(e.target.id);
         const value = e.target.value;
-        const name = e.target.name;
+        const name = parseInt(e.target.name);
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
             if (checkedItem.find(i => i.value === value)) {
                 return
             } else {
-                const newList = [...checkedItem];
+                let newList = [...checkedItem];
                 newList.push(obj);
-                newList.sort()
+                newList.sort((a, b) => (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0)
+                console.log(newList)
                 setCheckedItem(newList);
                 return
             }
@@ -63,13 +64,13 @@ const Schaduale = () => {
         <div className={styles.schaduale_container}>
             <div className={styles.agenda_container}>
                 <h1 className={styles.agenda_tittle}>Dias da semana e horários disponíveis para execução dos desafios</h1>
-                <div>
+                <div className={styles.available_container}>
                     <ul>
                         {
 
                             checkedItem.map((item, index) => {
                                 return (
-                                    <li key={index}>{`${item.name} - ${item.value}`}</li>
+                                    <li className={styles.available} key={index}>{`${item.name} | ${item.value}`}</li>
                                 )
                             })
                         }
@@ -79,10 +80,10 @@ const Schaduale = () => {
 
             <div className={styles.container}>
                 <div>
-                    <button value='monday' onClick={handleClick} className={`${styles.allDays} ${styles.segunda}`}>Segunda</button>
+                    <button value='segunda' onClick={handleClick} className={clickedButton == 'segunda' ? `${styles.day}` : `${styles.allDays}`}>Segunda</button>
                 </div>
                 <div>
-                    <button value='tuesday' onClick={handleClick} className={`${styles.allDays} ${styles.terca}`}>Terça</button>
+                    <button value='terça' onClick={handleClick} className={clickedButton == 'terça' ? `${styles.day}` : `${styles.allDays}`}>Terça</button>
                 </div>
                 <div>
                     <button value='wednesday' onClick={handleClick} className={`${styles.allDays} ${styles.quarta}`}>Quarta</button>
@@ -102,7 +103,7 @@ const Schaduale = () => {
                     <input
                         type='checkbox'
                         id='1'
-                        name={clickedButton}
+                        name='1'
                         value='6:00 - 7:00'
                         onChange={handleCheckBoxChange}
 
@@ -113,7 +114,7 @@ const Schaduale = () => {
                     <input
                         type='checkbox'
                         id='2'
-                        name='2'
+                        name='5'
                         value='10:00 - 11:00'
                         onChange={handleCheckBoxChange}
 
@@ -125,7 +126,7 @@ const Schaduale = () => {
                     <input
                         type='checkbox'
                         id='3'
-                        name='3'
+                        name='9'
                         value='14:00 - 15:00'
                         onChange={handleCheckBoxChange}
                     />
