@@ -96,8 +96,9 @@ const SignUp = ({ list }: PropsName) => {
                 </div>
 
                 <Schaduale />
-
-
+                <div className={styles.btn_signUp_container}>
+                    <button className={styles.btn_signUp}>Enviar</button>
+                </div>
             </main>
 
             <Footer />

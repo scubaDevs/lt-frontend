@@ -1,13 +1,12 @@
 .schaduale_container {
+    margin-bottom: 50px;
     margin-left: 135px;
     margin-top: 50px;
     width: 500px;
-    border: 1px solid purple;
+
 }
 
-.agenda_container {
-    border: 2px solid orange
-}
+
 
 .agenda_tittle {
     font-family: 'Open Sans';
@@ -22,16 +21,17 @@
 }
 
 .available_container {
+    display: flex;
     margin-top: 30px;
     margin-bottom: 30px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.available {
+.availableTittle {
     padding: 20px;
     margin: 5px;
-    width: 300px;
+    width: 200px;
     height: 30px;
     background-color: white;
     border-radius: 15px;
@@ -47,6 +47,42 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.available {
+    padding: 20px;
+    margin: 5px;
+    width: 200px;
+    height: 30px;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid #970480;
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #970480;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clearItem {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #970480;
+    background-color: #970480;
+    color: white;
+    margin-left: 5px;
+
+}
+
+.clearItem:hover {
+    cursor: pointer;
 }
 
 .container {
@@ -110,34 +146,4 @@
     align-items: center;
     border: 2px solid hsla(310, 95%, 30%, 1);
 
-}
-
-.btn_signUp {
-    margin: 40px;
-    width: 539px;
-    height: 40px;
-    border: 2px solid hsla(310, 95%, 30%, 1);
-    background-color: white;
-    border-radius: 15px;
-    color: hsla(0, 0%, 18%, 1);
-    font-family: 'Open Sans', 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    letter-spacing: 0.05rem;
-    transition-property: width, height, box-shadow;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-
-}
-
-.btn_signUp:hover {
-
-
-    color: white;
-    box-shadow: 2px 5px 5px hsla(0, 0%, 37%, 1);
-
-    background-color: hsla(310, 95%, 30%, 1);
-    cursor: pointer;
 }

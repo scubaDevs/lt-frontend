@@ -15,16 +15,17 @@
 }
 
 .main_container {
+
     width: 100%;
     min-height: 100vh;
-    border: 1px solid red;
+
 
 }
 
 .initial_container {
     width: 500px;
     margin-left: 135px;
-    border: 1px solid blue;
+
 }
 
 .tittle {
@@ -56,7 +57,7 @@
 
 .form_container {
     position: relative;
-    border: 1px solid green;
+
 
 }
 
@@ -192,4 +193,43 @@
 
 .liFakeNameItem {
     margin-top: 20px;
+}
+
+.btn_signUp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 135px;
+    margin-bottom: 50px;
+    padding: 20px 50px 20px 50px;
+    height: 40px;
+    width: 600px;
+    border: 2px solid hsla(310, 95%, 30%, 1);
+    background-color: white;
+    border-radius: 15px;
+    color: hsla(0, 0%, 18%, 1);
+    font-family: 'Open Sans', 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.05rem;
+    transition-property: box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+
+}
+
+.btn_signUp:hover {
+
+
+    color: white;
+    box-shadow: 2px 5px 5px hsla(0, 0%, 37%, 1);
+
+    background-color: hsla(310, 95%, 30%, 1);
+    cursor: pointer;
+}
+
+.btn_signUp_Container {
+    margin: 300px, 40px, 40px, 135px;
 }
