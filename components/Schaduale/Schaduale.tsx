@@ -1,28 +1,36 @@
 import styles from '../Schaduale/Schaduale.module.css';
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { IdValueType } from '../../types/types';
 
 
 
 
 
+type Props = {
+
+    day: React.Dispatch<SetStateAction<string>>;
+    seg: React.Dispatch<SetStateAction<IdValueType[]>>;
+    ter: React.Dispatch<SetStateAction<IdValueType[]>>;
+    qua: React.Dispatch<SetStateAction<IdValueType[]>>;
+    qui: React.Dispatch<SetStateAction<IdValueType[]>>;
+    sex: React.Dispatch<SetStateAction<IdValueType[]>>;
+    sab: React.Dispatch<SetStateAction<IdValueType[]>>;
+    dayState: string;
+    segState: IdValueType[];
+    terState: IdValueType[];
+    quaState: IdValueType[];
+    quiState: IdValueType[];
+    sexState: IdValueType[];
+    sabState: IdValueType[];
+
+}
 
 //Início do Componente
 
-const Schaduale = () => {
+const Schaduale = ({ day, seg, ter, qua, qui, sex, sab, dayState, segState, terState, quaState, quiState, sexState, sabState }: Props) => {
 
 
-    //Constantes que guardam states
 
-    const [clickedButton, setClickedButton] = useState('')
-
-
-    const [checkedItemSeg, setCheckedItemSeg] = useState<Array<IdValueType>>([])
-    const [checkedItemTer, setCheckedItemTer] = useState<Array<IdValueType>>([])
-    const [checkedItemQua, setCheckedItemQua] = useState<Array<IdValueType>>([])
-    const [checkedItemQui, setCheckedItemQui] = useState<Array<IdValueType>>([])
-    const [checkedItemSex, setCheckedItemSex] = useState<Array<IdValueType>>([])
-    const [checkedItemSab, setCheckedItemSab] = useState<Array<IdValueType>>([])
 
 
 
@@ -31,8 +39,11 @@ const Schaduale = () => {
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        e.stopPropagation();
         const button: HTMLButtonElement = e.currentTarget;
-        return setClickedButton(button.value)
+        return day(button.value)
+
+
     }
 
     //Botão que desmarca um horário selecionado na segunda
@@ -41,14 +52,14 @@ const Schaduale = () => {
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemSeg];
-        console.log(list.splice(list.findIndex(i => i.id === id), 1))
-        setCheckedItemSeg(list);
+        let list = [...segState];
+        list.splice(list.findIndex(i => i.id === id), 1);
+        seg(list);
         return
 
 
     }
-    console.log("Esse é console de SEGUNDA: ", checkedItemSeg)
+
 
     //Botão que desmarca um horário selecionado na Terça
     const handleClearBtnTer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -56,59 +67,62 @@ const Schaduale = () => {
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemTer];
+        let list = [...terState];
         list.splice(list.findIndex(i => i.id === id), 1)
-        setCheckedItemTer(list)
+        ter(list)
         return
     }
 
-    console.log("Esse é console de TERÇA: ", checkedItemTer)
+
     //Botão que desmarca um horário selecionado na Quarta
     const handleClearBtnQua = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemQua];
+        let list = [...quaState];
         list.splice(list.findIndex(i => i.id === id), 1)
-        setCheckedItemQua(list)
+        qua(list)
         return
     }
 
-    console.log("Esse é console de QUARTA: ", checkedItemQua)
+
     //Botão que desmarca um horário selecionado na Quinta
     const handleClearBtnQui = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemQui];
+        let list = [...quiState];
         list.splice(list.findIndex(i => i.id === id), 1)
-        setCheckedItemQui(list)
+        qui(list)
+        return
     }
-    console.log("Esse é console de QUINTA: ", checkedItemQui)
+
     //Botão que desmarca um horário selecionado na sexta
     const handleClearBtnSex = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemSex];
+        let list = [...sexState];
         list.splice(list.findIndex(i => i.id === id), 1)
-        setCheckedItemSex(list)
+        sex(list)
+        return
     }
-    console.log("Esse é console de SEXTA: ", checkedItemSex)
+
     //Botão que desmarca um horário selecionado no Sábado
     const handleClearBtnSab = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const clear: HTMLButtonElement = e.currentTarget;
         const id = parseInt(clear.id);
-        let list = [...checkedItemSab];
+        let list = [...sabState];
         list.splice(list.findIndex(i => i.id === id), 1)
-        setCheckedItemSab(list)
+        sab(list)
+        return
     }
-    console.log("Esse é console de Sabado: ", checkedItemSab)
+
 
 
 
@@ -124,25 +138,23 @@ const Schaduale = () => {
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
-            if (checkedItemSeg.find(i => i.value === value)) {
+            if (segState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemSeg];
+                let newList = [...segState];
                 newList.push(obj);
                 //colocando em ordem crescente com base no valor do id
                 newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                console.log(newList)
-                setCheckedItemSeg(newList);
+                seg(newList);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemSeg.find(i => i.value === value)) {
-                const newList = [...checkedItemSeg]
+            if (segState.find(i => i.value === value)) {
+                let newList = [...segState]
                 newList.splice(newList.findIndex(i => i.id === id), 1)
-                console.log(newList)
-                setCheckedItemSeg(newList)
+                seg(newList)
                 return
             }
         }
@@ -161,24 +173,23 @@ const Schaduale = () => {
 
 
         if (e.target.checked == true) {
-            if (checkedItemTer.find(i => i.value === value)) {
+            if (terState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemTer];
+                let newList = [...terState];
                 newList.push(obj);
                 //colocando em ordem crescente com base no valor do id
                 newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                console.log(newList)
-                setCheckedItemTer(newList);
+                ter(newList);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemTer.find(i => i.value === value)) {
-                const newList = [...checkedItemTer]
+            if (terState.find(i => i.value === value)) {
+                const newList = [...terState]
                 newList.splice(newList.findIndex(i => i.id === id), 1)
-                setCheckedItemTer(newList)
+                ter(newList)
                 return
             }
         }
@@ -195,24 +206,23 @@ const Schaduale = () => {
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
-            if (checkedItemQua.find(i => i.value === value)) {
+            if (quaState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemQua];
+                let newList = [...quaState];
                 newList.push(obj);
                 //colocando em ordem crescente com base no valor do id
                 newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                console.log(newList)
-                setCheckedItemQua(newList);
+                qua(newList);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemQua.find(i => i.value === value)) {
-                const newList = [...checkedItemQua]
+            if (quaState.find(i => i.value === value)) {
+                let newList = [...quaState]
                 newList.splice(newList.findIndex(i => i.id === id), 1)
-                setCheckedItemQua(newList)
+                qua(newList)
                 return
             }
         }
@@ -229,24 +239,23 @@ const Schaduale = () => {
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
-            if (checkedItemQui.find(i => i.value === value)) {
+            if (quiState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemQui];
+                const newList = [...quiState];
                 newList.push(obj);
                 //colocando em ordem crescente com base no valor do id
                 newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                console.log(newList)
-                setCheckedItemQui(newList);
+                qui(newList);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemQui.find(i => i.value === value)) {
-                const newList = [...checkedItemQui]
+            if (quiState.find(i => i.value === value)) {
+                const newList = [...quiState]
                 newList.splice(newList.findIndex(i => i.id === id), 1)
-                setCheckedItemQui(newList)
+                qui(newList)
                 return
             }
         }
@@ -263,24 +272,23 @@ const Schaduale = () => {
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
-            if (checkedItemSex.find(i => i.value === value)) {
+            if (sexState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemSex];
-                newList.push(obj);
+                const newListSex = [...sexState];
+                newListSex.push(obj);
                 //colocando em ordem crescente com base no valor do id
-                newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                console.log(newList)
-                setCheckedItemSex(newList);
+                newListSex.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
+                sex(newListSex);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemSex.find(i => i.value === value)) {
-                const newList = [...checkedItemSex]
-                newList.splice(newList.findIndex(i => i.id === id), 1)
-                setCheckedItemSex(newList)
+            if (sexState.find(i => i.value === value)) {
+                const newListSex = [...sexState];
+                newListSex.splice(newListSex.findIndex(i => i.id === id), 1)
+                sex(newListSex)
                 return
             }
         }
@@ -297,29 +305,30 @@ const Schaduale = () => {
         const obj = { id: id, value: value, name: name }
 
         if (e.target.checked == true) {
-            if (checkedItemSab.find(i => i.value === value)) {
+            if (sabState.find(i => i.value === value)) {
                 return
             } else {
-                let newList = [...checkedItemSab];
+                let newList = [...sabState];
                 newList.push(obj);
                 //colocando em ordem crescente com base no valor do id
                 newList.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
-                setCheckedItemSab(newList);
+                sab(newList);
                 return
             }
         }
         if (e.target.checked == false) {
 
-            if (checkedItemSab.find(i => i.value === value)) {
-                const newList = [...checkedItemSab]
+            if (sabState.find(i => i.value === value)) {
+                let newList = [...sabState]
                 newList.splice(newList.findIndex(i => i.id === id), 1)
-                setCheckedItemSab(newList)
+                sab(newList)
                 return
             }
         }
 
         return
     }
+
 
 
     // ***Início do Retorno do Componente***
@@ -331,9 +340,9 @@ const Schaduale = () => {
                 <div className={styles.available_container}>
 
                     <ul>
-                        {checkedItemSeg[0] && <h1 className={styles.availableTittle}>Segunda</h1>}
+                        {segState[0] && <h1 className={styles.availableTittle}>Segunda</h1>}
                         {
-                            checkedItemSeg.map((item, index) => {
+                            segState.map((item, index) => {
                                 return (
                                     <li className={styles.available} key={index}>{`${item.value}`} <button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnSeg}>X</button></li>
                                 )
@@ -342,38 +351,39 @@ const Schaduale = () => {
                     </ul>
                     <ul>
 
-                        {checkedItemTer[0] && <h1 className={styles.availableTittle}>Terça</h1>}
-                        {checkedItemTer.map((item, index) => {
+                        {terState[0] && <h1 className={styles.availableTittle}>Terça</h1>}
+                        {terState.map((item, index) => {
                             return (
-                                <li className={styles.available} key={index}>{` ${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnTer}>X</button></li>
+                                <li className={styles.available} key={index}>{`${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnTer}>X</button></li>
                             )
                         })}
 
                     </ul>
                     <ul>
 
-                        {checkedItemQua[0] && <h1 className={styles.availableTittle}>Quarta</h1>}
-                        {checkedItemQua.map((item, index) => {
+                        {quaState[0] && <h1 className={styles.availableTittle}>Quarta</h1>}
+                        {quaState.map((item, index) => {
                             return (
-                                <li className={styles.available} key={index}>{` ${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnQua}>X</button></li>
+                                <li className={styles.available} key={index}>{`${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnQua}>X</button></li>
                             )
                         })}
 
                     </ul>
                     <ul>
 
-                        {checkedItemQui[0] && <h1 className={styles.availableTittle}>Quinta</h1>}
-                        {checkedItemQui.map((item, index) => {
+                        {quiState[0] && <h1 className={styles.availableTittle}>Quinta</h1>}
+                        {quiState.map((item, index) => {
                             return (
-                                <li className={styles.available} key={index}>{` ${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnQui}>X</button></li>
+                                <li className={styles.available} key={index}>{`${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnQui}>X</button></li>
                             )
                         })}
+
 
                     </ul>
                     <ul>
 
-                        {checkedItemSex[0] && <h1 className={styles.availableTittle}>Sexta</h1>}
-                        {checkedItemSex.map((item, index) => {
+                        {sexState[0] && <h1 className={styles.availableTittle}>Sexta</h1>}
+                        {sexState.map((item, index) => {
                             return (
                                 <li className={styles.available} key={index}>{` ${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnSex}>X</button></li>
                             )
@@ -382,8 +392,8 @@ const Schaduale = () => {
                     </ul>
                     <ul>
 
-                        {checkedItemSab[0] && <h1 className={styles.availableTittle}>Sábado</h1>}
-                        {checkedItemSab.map((item, index) => {
+                        {sabState[0] && <h1 className={styles.availableTittle}>Sábado</h1>}
+                        {sabState.map((item, index) => {
                             return (
                                 <li className={styles.available} key={index}>{` ${item.value}`}<button id={`${item.id}`} className={styles.clearItem} onClick={handleClearBtnSab}>X</button></li>
                             )
@@ -395,14 +405,14 @@ const Schaduale = () => {
 
 
 
-
+            {/* Botões com os dias da semana */}
 
             <div className={styles.container}>
                 <div>
                     <button
                         value='segunda'
                         onClick={handleClick}
-                        className={clickedButton == 'segunda' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'segunda' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Segunda
                     </button>
@@ -411,7 +421,7 @@ const Schaduale = () => {
                     <button
                         value='terca'
                         onClick={handleClick}
-                        className={clickedButton == 'terca' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'terca' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Terça
                     </button>
@@ -420,7 +430,7 @@ const Schaduale = () => {
                     <button
                         value='quarta'
                         onClick={handleClick}
-                        className={clickedButton == 'quarta' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'quarta' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Quarta
                     </button>
@@ -429,7 +439,7 @@ const Schaduale = () => {
                     <button
                         value='quinta'
                         onClick={handleClick}
-                        className={clickedButton == 'quinta' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'quinta' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Quinta
                     </button>
@@ -438,7 +448,7 @@ const Schaduale = () => {
                     <button
                         value='sexta'
                         onClick={handleClick}
-                        className={clickedButton == 'sexta' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'sexta' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Sexta
                     </button>
@@ -447,7 +457,7 @@ const Schaduale = () => {
                     <button
                         value='sabado'
                         onClick={handleClick}
-                        className={clickedButton == 'sabado' ? `${styles.day}` : `${styles.allDays}`}
+                        className={dayState == 'sabado' ? `${styles.day}` : `${styles.allDays}`}
                     >
                         Sábado
                     </button>
@@ -461,7 +471,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'segunda' &&
+                {dayState == 'segunda' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -471,7 +481,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 1)) ? true : false}
+                                checked={segState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -483,7 +493,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 5)) ? true : false}
+                                checked={segState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -496,7 +506,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 9)) ? true : false}
+                                checked={segState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -507,7 +517,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 13)) ? true : false}
+                                checked={segState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -518,7 +528,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 17)) ? true : false}
+                                checked={segState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -532,7 +542,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 2)) ? true : false}
+                                checked={segState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -543,7 +553,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 6)) ? true : false}
+                                checked={segState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -555,7 +565,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 10)) ? true : false}
+                                checked={segState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -566,7 +576,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 14)) ? true : false}
+                                checked={segState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -577,7 +587,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 18)) ? true : false}
+                                checked={segState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -591,7 +601,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 3)) ? true : false}
+                                checked={segState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -602,7 +612,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 7)) ? true : false}
+                                checked={segState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -613,7 +623,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 11)) ? true : false}
+                                checked={segState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -624,7 +634,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 15)) ? true : false}
+                                checked={segState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -641,7 +651,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 4)) ? true : false}
+                                checked={segState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -652,7 +662,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 8)) ? true : false}
+                                checked={segState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -663,7 +673,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 12)) ? true : false}
+                                checked={segState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -674,7 +684,7 @@ const Schaduale = () => {
                                 name='segunda'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeSeg}
-                                checked={(checkedItemSeg.find(i => i.id === 16)) ? true : false}
+                                checked={segState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>
@@ -691,7 +701,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'terca' &&
+                {dayState == 'terca' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -701,7 +711,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 1)) ? true : false}
+                                checked={terState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -713,7 +723,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 5)) ? true : false}
+                                checked={terState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -726,7 +736,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 9)) ? true : false}
+                                checked={terState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -737,7 +747,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 13)) ? true : false}
+                                checked={terState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -748,7 +758,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 17)) ? true : false}
+                                checked={terState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -762,7 +772,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 2)) ? true : false}
+                                checked={terState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -773,7 +783,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 6)) ? true : false}
+                                checked={terState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -785,7 +795,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 10)) ? true : false}
+                                checked={terState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -796,7 +806,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 14)) ? true : false}
+                                checked={terState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -807,7 +817,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 18)) ? true : false}
+                                checked={terState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -821,7 +831,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 3)) ? true : false}
+                                checked={terState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -832,7 +842,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 7)) ? true : false}
+                                checked={terState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -843,7 +853,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 11)) ? true : false}
+                                checked={terState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -854,7 +864,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 15)) ? true : false}
+                                checked={terState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -871,7 +881,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 4)) ? true : false}
+                                checked={terState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -882,7 +892,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 8)) ? true : false}
+                                checked={terState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -893,7 +903,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 12)) ? true : false}
+                                checked={terState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -904,7 +914,7 @@ const Schaduale = () => {
                                 name='terca'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeTer}
-                                checked={(checkedItemTer.find(i => i.id === 16)) ? true : false}
+                                checked={terState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>
@@ -921,7 +931,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'quarta' &&
+                {dayState == 'quarta' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -931,7 +941,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 1)) ? true : false}
+                                checked={quaState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -943,7 +953,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 5)) ? true : false}
+                                checked={quaState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -956,7 +966,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 9)) ? true : false}
+                                checked={quaState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -967,7 +977,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 13)) ? true : false}
+                                checked={quaState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -978,7 +988,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 17)) ? true : false}
+                                checked={quaState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -992,7 +1002,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 2)) ? true : false}
+                                checked={quaState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1003,7 +1013,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 6)) ? true : false}
+                                checked={quaState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -1015,7 +1025,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 10)) ? true : false}
+                                checked={quaState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1026,7 +1036,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 14)) ? true : false}
+                                checked={quaState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1037,7 +1047,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 18)) ? true : false}
+                                checked={quaState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -1051,7 +1061,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 3)) ? true : false}
+                                checked={quaState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1062,7 +1072,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 7)) ? true : false}
+                                checked={quaState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1073,7 +1083,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 11)) ? true : false}
+                                checked={quaState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1084,7 +1094,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 15)) ? true : false}
+                                checked={quaState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -1101,7 +1111,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 4)) ? true : false}
+                                checked={quaState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1112,7 +1122,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 8)) ? true : false}
+                                checked={quaState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1123,7 +1133,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 12)) ? true : false}
+                                checked={quaState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1134,7 +1144,7 @@ const Schaduale = () => {
                                 name='quarta'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeQua}
-                                checked={(checkedItemQua.find(i => i.id === 16)) ? true : false}
+                                checked={quaState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>
@@ -1152,7 +1162,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'quinta' &&
+                {dayState == 'quinta' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -1162,7 +1172,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 1)) ? true : false}
+                                checked={quiState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -1174,7 +1184,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 5)) ? true : false}
+                                checked={quiState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -1187,7 +1197,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 9)) ? true : false}
+                                checked={quiState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1198,7 +1208,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 13)) ? true : false}
+                                checked={quiState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1209,7 +1219,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 17)) ? true : false}
+                                checked={quiState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -1223,7 +1233,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 2)) ? true : false}
+                                checked={quiState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1234,7 +1244,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 6)) ? true : false}
+                                checked={quiState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -1246,7 +1256,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 10)) ? true : false}
+                                checked={quiState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1257,7 +1267,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 14)) ? true : false}
+                                checked={quiState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1268,7 +1278,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 18)) ? true : false}
+                                checked={quiState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -1282,7 +1292,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 3)) ? true : false}
+                                checked={quiState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1293,7 +1303,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 7)) ? true : false}
+                                checked={quiState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1304,7 +1314,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 11)) ? true : false}
+                                checked={quiState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1315,7 +1325,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 15)) ? true : false}
+                                checked={quiState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -1332,7 +1342,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 4)) ? true : false}
+                                checked={quiState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1343,7 +1353,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 8)) ? true : false}
+                                checked={quiState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1354,7 +1364,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 12)) ? true : false}
+                                checked={quiState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1365,7 +1375,7 @@ const Schaduale = () => {
                                 name='quinta'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeQui}
-                                checked={(checkedItemQui.find(i => i.id === 16)) ? true : false}
+                                checked={quiState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>
@@ -1383,7 +1393,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'sexta' &&
+                {dayState == 'sexta' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -1393,7 +1403,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 1)) ? true : false}
+                                checked={sexState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -1405,7 +1415,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 5)) ? true : false}
+                                checked={sexState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -1418,7 +1428,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 9)) ? true : false}
+                                checked={sexState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1429,7 +1439,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 13)) ? true : false}
+                                checked={sexState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1440,7 +1450,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 17)) ? true : false}
+                                checked={sexState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -1454,7 +1464,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 2)) ? true : false}
+                                checked={sexState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1465,7 +1475,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 6)) ? true : false}
+                                checked={sexState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -1477,7 +1487,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 10)) ? true : false}
+                                checked={sexState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1488,7 +1498,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 14)) ? true : false}
+                                checked={sexState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1499,7 +1509,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 18)) ? true : false}
+                                checked={sexState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -1513,7 +1523,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 3)) ? true : false}
+                                checked={sexState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1524,7 +1534,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 7)) ? true : false}
+                                checked={sexState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1535,7 +1545,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 11)) ? true : false}
+                                checked={sexState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1546,7 +1556,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 15)) ? true : false}
+                                checked={sexState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -1563,7 +1573,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 4)) ? true : false}
+                                checked={sexState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1574,7 +1584,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 8)) ? true : false}
+                                checked={sexState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1585,7 +1595,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 12)) ? true : false}
+                                checked={sexState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1596,7 +1606,7 @@ const Schaduale = () => {
                                 name='sexta'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeSex}
-                                checked={(checkedItemSex.find(i => i.id === 16)) ? true : false}
+                                checked={sexState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>
@@ -1614,7 +1624,7 @@ const Schaduale = () => {
 
 
 
-                {clickedButton == 'sabado' &&
+                {dayState == 'sabado' &&
                     <>
                         <div className={styles.ampm}>
                             <label htmlFor='1'>6:00 - 7:00</label>
@@ -1624,7 +1634,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='6:00 - 7:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 1)) ? true : false}
+                                checked={sabState.find(i => i.id === 1) ? true : false}
 
                             />
                         </div>
@@ -1636,7 +1646,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='10:00 - 11:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 5)) ? true : false}
+                                checked={sabState.find(i => i.id === 5) ? true : false}
 
 
                             />
@@ -1649,7 +1659,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='14:00 - 15:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 9)) ? true : false}
+                                checked={sabState.find(i => i.id === 9) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1660,7 +1670,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='18:00 - 19:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 13)) ? true : false}
+                                checked={sabState.find(i => i.id === 13) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1671,7 +1681,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='22:00 - 23:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 17)) ? true : false}
+                                checked={sabState.find(i => i.id === 17) ? true : false}
                             />
                         </div>
                         <div>
@@ -1685,7 +1695,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='7:00 - 8:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 2)) ? true : false}
+                                checked={sabState.find(i => i.id === 2) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1696,7 +1706,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='11:00 - 12:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 6)) ? true : false}
+                                checked={sabState.find(i => i.id === 6) ? true : false}
                             />
                         </div>
 
@@ -1708,7 +1718,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='15:00 - 16:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 10)) ? true : false}
+                                checked={sabState.find(i => i.id === 10) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1719,7 +1729,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='19:00 - 20:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 14)) ? true : false}
+                                checked={sabState.find(i => i.id === 14) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1730,7 +1740,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='23:00 - 00:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 18)) ? true : false}
+                                checked={sabState.find(i => i.id === 18) ? true : false}
                             />
                         </div>
                         <div>
@@ -1744,7 +1754,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='8:00 - 9:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 3)) ? true : false}
+                                checked={sabState.find(i => i.id === 3) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1755,7 +1765,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='12:00 - 13:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 7)) ? true : false}
+                                checked={sabState.find(i => i.id === 7) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1766,7 +1776,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='16:00 - 17:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 11)) ? true : false}
+                                checked={sabState.find(i => i.id === 11) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1777,7 +1787,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='20:00 - 21:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 15)) ? true : false}
+                                checked={sabState.find(i => i.id === 15) ? true : false}
                             />
                         </div>
                         <div>
@@ -1794,7 +1804,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='9:00 - 10:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 4)) ? true : false}
+                                checked={sabState.find(i => i.id === 4) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1805,7 +1815,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='13:00 - 14:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 8)) ? true : false}
+                                checked={sabState.find(i => i.id === 8) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1816,7 +1826,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='17:00 - 18:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 12)) ? true : false}
+                                checked={sabState.find(i => i.id === 12) ? true : false}
                             />
                         </div>
                         <div className={styles.ampm}>
@@ -1827,7 +1837,7 @@ const Schaduale = () => {
                                 name='sabado'
                                 value='21:00 - 22:00'
                                 onChange={handleCheckBoxChangeSab}
-                                checked={(checkedItemSab.find(i => i.id === 16)) ? true : false}
+                                checked={sabState.find(i => i.id === 16) ? true : false}
                             />
                         </div>
                         <div>

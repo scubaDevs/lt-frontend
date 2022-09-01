@@ -1,13 +1,20 @@
 import styles from '../Country_Phone/Country_Phone.module.css';
-import { useState } from 'react';
-import Image from 'next/image';
+import React, { SetStateAction, useState } from 'react';
+
+
 
 type Props = {
-    countryList: any[]
+    countryList: any[];
+    setC: React.Dispatch<SetStateAction<string>>;
+    setP: React.Dispatch<SetStateAction<string>>;
+    c: String;
+    p: string;
+
 }
 
-const Country_Phone = ({ countryList }: Props) => {
+const Country_Phone = ({ countryList, setC, setP, c, p }: Props) => {
 
+    //Colocando a lista em ordem crescente
 
     countryList = countryList.sort(function (a, b) {
 
@@ -18,12 +25,12 @@ const Country_Phone = ({ countryList }: Props) => {
 
 
 
-    const [selectedCountry, setSelectedCountry] = useState('Escolha seu País');
+
 
 
     const findCountryOnSortedList = countryList.find((obj) => {
 
-        if (obj.translations.por.common == selectedCountry || ((selectedCountry == 'Escolha seu País') ? obj.translations.por.common == 'Brasil' : false)) {
+        if (obj.translations.por.common == c || c == 'Escolha seu País') {
             return (
                 true
             )
@@ -35,9 +42,14 @@ const Country_Phone = ({ countryList }: Props) => {
 
     })
 
-    console.log(findCountryOnSortedList.idd.suffixes[0])
 
 
+
+    const handlePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("Este é o valor", e.target.value)
+        return setP(e.target.value);
+
+    }
 
 
 
@@ -47,7 +59,7 @@ const Country_Phone = ({ countryList }: Props) => {
             <li className={`${styles.liItens} ${styles.liCountry} `}>
                 <label htmlFor='country' className={styles.allLabels}>País</label>
 
-                <select id='country' name='country' className={`${styles.inputAll} ${styles.inputSelect}`} onChange={(e) => { setSelectedCountry(e.target.value) }} value={selectedCountry}>
+                <select id='country' name='country' className={`${styles.inputAll} ${styles.inputSelect}`} onChange={(e) => { setC(e.target.value) }} >
                     <option className={styles.inputOption} >{'Escolha o seu País'}</option>
                     {
 
@@ -66,7 +78,7 @@ const Country_Phone = ({ countryList }: Props) => {
 
             </li>
 
-            {selectedCountry != 'Escolha seu País' &&
+            {c != 'Escolha seu País' &&
                 <li className={`${styles.liItens} ${styles.liPhone}`}>
                     <label htmlFor='phone' className={styles.allLabels}>Whatsapp</label>
                     <input
@@ -76,28 +88,30 @@ const Country_Phone = ({ countryList }: Props) => {
                         name='phone'
                         className={`${styles.inputAll} ${styles.phoneInput} `}
                         placeholder="Digite o telefone com DDD"
+                        onChange={handlePhone}
+                        value={p}
 
                     />
                 </li>
             }
+            {/* ------------------------------------------ BUGADO ---------------------------------------------------------------- */}
             {
-                selectedCountry != 'Escolha seu País' &&
+                c != 'Escolha seu País' &&
 
                 <li className={`${styles.liImage} `}>
-
-
                     <div className={styles.idd}>
                         <img
-                            src={findCountryOnSortedList.flags.png ? findCountryOnSortedList.flags.png : findCountryOnSortedList()}
+                            src={(findCountryOnSortedList.flags.png ? true : false) ? findCountryOnSortedList.flags.png : null}
                             className={styles.flag}
                         />
-                        <p>{findCountryOnSortedList.idd.root ? findCountryOnSortedList.idd.root : findCountryOnSortedList()}</p>
-                        <p>{findCountryOnSortedList.idd.suffixes[0] ? findCountryOnSortedList.idd.suffixes : findCountryOnSortedList()}</p>
+                        <p>{(findCountryOnSortedList.idd.root ? true : false) ? findCountryOnSortedList.idd.root : null}</p>
+                        <p>{(findCountryOnSortedList.idd.suffixes[0] ? true : false) ? findCountryOnSortedList.idd.suffixes : null}</p>
                     </div>
-
-
                 </li >
             }
+
+            {/* ------------------------------------------ BUGADO ---------------------------------------------------------------- */}
+
 
 
 

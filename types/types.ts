@@ -3,8 +3,8 @@ import React from "react"
 // type das informações de seleção dos horários disponíveis para execução das atividades
 export type IdValueType = {
     id: number,
-    value: string,
-    name: string
+    value?: string,
+    name?: string
 
 }
 export type AvailableTimeProps = {

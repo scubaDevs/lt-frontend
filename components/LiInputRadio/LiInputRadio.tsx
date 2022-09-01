@@ -1,11 +1,22 @@
 import styles from '../LiInputRadio/LiInputRadio.module.css';
-import { useState } from 'react';
+import { ChangeEvent, SetStateAction, useState } from 'react';
+
+
+type Props = {
+
+    setL: React.Dispatch<SetStateAction<string>>;
+}
+
+const LiInputRadio = ({ setL }: Props) => {
 
 
 
-const LiInputRadio = () => {
+    const handleChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
 
-    const [level, setLevel] = useState('')
+        setL(e.target.value)
+        return
+
+    }
 
 
 
@@ -16,15 +27,15 @@ const LiInputRadio = () => {
                 <p className={styles.tittle}>Selecione o seu nível de inglês</p>
                 <div className={`${styles.input_container}`}>
                     <label htmlFor="basic" className={`${styles.basicLevel}`}>Básico</label>
-                    <input className={` ${styles.inputRadio}`} id="basic" type="radio" value='basic' name='radio' onChange={e => { setLevel(e.target.value) }} />
+                    <input className={` ${styles.inputRadio}`} id="basic" type="radio" value='basic' name='radio' onChange={handleChangeRadio} />
                 </div>
                 <div className={`${styles.input_container}`}>
                     <label htmlFor="intermediate" className={`${styles.basicLevel}`}>Intermediário</label>
-                    <input className={` ${styles.inputRadio}`} id="intermediate" type="radio" value='intermediate' name='radio' onChange={e => { setLevel(e.target.value) }} />
+                    <input className={` ${styles.inputRadio}`} id="intermediate" type="radio" value='intermediate' name='radio' onChange={handleChangeRadio} />
                 </div>
                 <div className={`${styles.input_container}`}>
                     <label htmlFor="advanced" className={`${styles.basicLevel} `}>Avançado</label>
-                    <input className={`${styles.inputRadio}`} id="advanced" type="radio" value='advanced' name='radio' onChange={e => { setLevel(e.target.value) }} />
+                    <input className={`${styles.inputRadio}`} id="advanced" type="radio" value='advanced' name='radio' onChange={handleChangeRadio} />
                 </div>
 
             </li>

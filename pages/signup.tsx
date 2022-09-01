@@ -8,6 +8,7 @@ import Image from 'next/image';
 import logo from '../public/images/betalogo.svg';
 import { useState } from 'react';
 import { Schaduale } from '../components/Schaduale/Schaduale';
+import { IdValueType } from '../types/types';
 
 
 type PropsName = {
@@ -15,9 +16,15 @@ type PropsName = {
 }
 
 
+//Início do componente
+
 const SignUp = ({ list }: PropsName) => {
 
 
+
+
+
+    //Início das declarações de variáveis
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
@@ -26,6 +33,123 @@ const SignUp = ({ list }: PropsName) => {
     const [confirm_Password, setConfirm_Password] = useState('');
     const [fakeName, setFakeName] = useState('');
 
+
+    //Constantes que guardam states de Schaduale
+
+    const [clickedButton, setClickedButton] = useState('')
+    const [checkedItemSeg, setCheckedItemSeg] = useState<Array<IdValueType>>([])
+    const [checkedItemTer, setCheckedItemTer] = useState<Array<IdValueType>>([])
+    const [checkedItemQua, setCheckedItemQua] = useState<Array<IdValueType>>([])
+    const [checkedItemQui, setCheckedItemQui] = useState<Array<IdValueType>>([])
+    const [checkedItemSex, setCheckedItemSex] = useState<Array<IdValueType>>([])
+    const [checkedItemSab, setCheckedItemSab] = useState<Array<IdValueType>>([])
+
+    //Constantes que guardam states de LiInputRadio
+
+    const [level, setLevel] = useState('')
+
+    //Constantes que guardam states de CountryPhone
+
+    const [selectedCountry, setSelectedCountry] = useState('Escolha seu País');
+    const [phone, setPhone] = useState('');
+
+
+    const allData: IdValueType[] = [];
+
+    const handleData = () => {
+
+
+        checkedItemSeg.map((item) => {
+            allData.push(item)
+        })
+        checkedItemTer.map((item) => {
+            allData.push(item)
+        })
+        checkedItemQua.map((item) => {
+            allData.push(item)
+        })
+        checkedItemQui.map((item) => {
+            allData.push(item)
+        })
+        checkedItemSex.map((item) => {
+            allData.push(item)
+        })
+        checkedItemSab.map((item) => {
+            allData.push(item)
+        })
+        allData.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
+
+
+        return
+    }
+
+
+    //--------------------------------
+
+    //Fim das definições das funções
+
+    //Execução de funções
+
+    handleData()
+
+    //Fim das execuções das funções
+
+
+    //Constantes para o fetch
+    const objData = {
+        name,
+        surname,
+        email,
+        password,
+        fakeName,
+        level,
+        selectedCountry,
+        phone,
+        allData: allData
+    }
+
+
+
+
+
+
+
+
+    //Fim das declarações de variáveis
+
+    //Início das definições das funções
+
+    //----------------------------------
+
+    //Função que faz a req Post
+    const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        try {
+            const res = await fetch('http://localhost:4000/api/', {
+                method: 'post',
+                headers: {
+
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(objData)
+
+            })
+            console.log("Esta é a resposta: ", res)
+        } catch (error) {
+            console.log("Este é o erro: ", error)
+        };
+
+
+        return
+    }
+
+
+    //----------------------------------
+
+
+
+
+    //Início do retorno do componente
 
     return (
         <>
@@ -76,9 +200,13 @@ const SignUp = ({ list }: PropsName) => {
                             </li>
                             <Country_Phone
                                 countryList={list}
+                                setP={setPhone}
+                                setC={setSelectedCountry}
+                                c={selectedCountry}
+                                p={phone}
                             />
                             <LiInputRadio
-
+                                setL={setLevel}
                             />
 
 
@@ -95,9 +223,27 @@ const SignUp = ({ list }: PropsName) => {
                     </div>
                 </div>
 
-                <Schaduale />
+                <Schaduale
+                    day={setClickedButton}
+                    dayState={clickedButton}
+                    seg={setCheckedItemSeg}
+                    segState={checkedItemSeg}
+                    ter={setCheckedItemTer}
+                    terState={checkedItemTer}
+                    qua={setCheckedItemQua}
+                    quaState={checkedItemQua}
+                    qui={setCheckedItemQui}
+                    quiState={checkedItemQui}
+                    sex={setCheckedItemSex}
+                    sexState={checkedItemSex}
+                    sab={setCheckedItemSab}
+                    sabState={checkedItemSab}
+                />
                 <div className={styles.btn_signUp_container}>
-                    <button className={styles.btn_signUp}>Enviar</button>
+                    <button
+                        className={styles.btn_signUp}
+                        onClick={handleClick}
+                    >Enviar</button>
                 </div>
             </main>
 
