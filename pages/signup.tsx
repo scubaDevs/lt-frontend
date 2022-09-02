@@ -124,6 +124,7 @@ const SignUp = ({ list }: PropsName) => {
     //Função que faz a req Post
     const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        console.log(JSON.stringify(objData))
         try {
             const res = await fetch('http://localhost:4000/api/', {
                 method: 'post',
@@ -134,8 +135,10 @@ const SignUp = ({ list }: PropsName) => {
                 body: JSON.stringify(objData)
 
             })
-            console.log("Esta é a resposta: ", res)
+            const result = res.json();
+            console.log("Esta é a resposta: ", result)
         } catch (error) {
+
             console.log("Este é o erro: ", error)
         };
 

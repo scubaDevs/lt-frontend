@@ -15,6 +15,45 @@ const Login: NextPage = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
+    const [authUser, setAuthUser] = useState({})
+
+    const objData = {
+        email,
+        password,
+        passwordConfirmation
+    }
+
+    const handleClickLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        let result
+
+        try {
+            const res = await fetch('http://localhost:4000/api/login', {
+                method: 'post',
+                headers: {
+
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(objData)
+
+            })
+                .then((res) => {
+                    return res.json()
+                })
+                .then((json) => {
+                    return setAuthUser(json)
+                })
+            console.log("Esta é a resposta: ", authUser)
+        } catch (error) {
+
+            console.log("Este é o erro: ", error)
+        };
+
+
+        return
+    }
+
+
 
     return (
         <div className={styles.first_container}>
@@ -69,7 +108,7 @@ const Login: NextPage = () => {
                                 <input className={styles.input} type="password" value={passwordConfirmation} onChange={e => { setPasswordConfirmation(e.target.value) }} placeholder={'  CONFIRME A SENHA'} />
                             </label>
 
-                            <button type="submit" className={styles.btn_login}>Enviar</button>
+                            <button type="submit" onClick={handleClickLogin} className={styles.btn_login}>Enviar</button>
                             <Link href='/fpassword'><p className={styles.forgot_pass}>Esqueci minha senha</p></Link>
 
                         </form>
