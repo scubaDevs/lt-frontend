@@ -13,14 +13,14 @@ const Login: NextPage = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
 
     const [authUser, setAuthUser] = useState({})
 
     const objData = {
         email,
         password,
-        passwordConfirmation
+
     }
 
     const handleClickLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -103,9 +103,6 @@ const Login: NextPage = () => {
                             </label>
                             <label>
                                 <input className={styles.input} type="password" value={password} onChange={e => { setPassword(e.target.value) }} placeholder={'  DIGITE A SENHA'} />
-                            </label>
-                            <label>
-                                <input className={styles.input} type="password" value={passwordConfirmation} onChange={e => { setPasswordConfirmation(e.target.value) }} placeholder={'  CONFIRME A SENHA'} />
                             </label>
 
                             <button type="submit" onClick={handleClickLogin} className={styles.btn_login}>Enviar</button>
